@@ -7,71 +7,40 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     [data-theme="dark"] {
-      --bg: #0f1117; --card: #1a1d27; --card2: #21253a;
-      --border: #2e3350; --text: #e8eaf0; --muted: #7b82a0;
-      --hover-row: rgba(255,255,255,0.02); --shadow: 0 2px 12px rgba(0,0,0,0.4);
+      --bg:#0f1117; --card:#1a1d27; --card2:#21253a;
+      --border:#2e3350; --text:#e8eaf0; --muted:#7b82a0;
+      --hover-row:rgba(255,255,255,0.02); --shadow:0 2px 12px rgba(0,0,0,0.4);
     }
     [data-theme="light"] {
-      --bg: #f4f6fb; --card: #ffffff; --card2: #eef1f8;
-      --border: #d8dde8; --text: #1a1d27; --muted: #6b7280;
-      --hover-row: rgba(0,0,0,0.02); --shadow: 0 2px 12px rgba(0,0,0,0.08);
+      --bg:#f4f6fb; --card:#ffffff; --card2:#eef1f8;
+      --border:#d8dde8; --text:#1a1d27; --muted:#6b7280;
+      --hover-row:rgba(0,0,0,0.02); --shadow:0 2px 12px rgba(0,0,0,0.08);
     }
     :root { --accent:#f5a623; --accent2:#4f8ef7; --font:'Segoe UI',system-ui,sans-serif; }
     [data-theme="dark"]  { --green:#2ecc71; --red:#e74c3c; --yellow:#f1c40f; }
     [data-theme="light"] { --green:#15803d; --red:#b91c1c; --yellow:#b45309; }
-
     * { box-sizing:border-box; margin:0; padding:0; }
     body { background:var(--bg); color:var(--text); font-family:var(--font); min-height:100vh; transition:background .25s,color .25s; }
-
-    /* HEADER */
-    header {
-      display:flex; align-items:center; justify-content:space-between;
-      padding:16px 32px; border-bottom:1px solid var(--border);
-      background:var(--card); box-shadow:var(--shadow);
-      position:sticky; top:0; z-index:100;
-    }
+    header { display:flex; align-items:center; justify-content:space-between; padding:16px 32px; border-bottom:1px solid var(--border); background:var(--card); box-shadow:var(--shadow); position:sticky; top:0; z-index:100; }
     .logo h1 { font-size:22px; font-weight:800; letter-spacing:3px; color:var(--accent); }
     .logo p  { font-size:11px; color:var(--muted); margin-top:2px; }
     .header-right { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
     .period-badge { background:var(--card2); border:1px solid var(--border); padding:5px 13px; border-radius:20px; font-size:12px; color:var(--muted); }
     .theme-toggle { background:var(--card2); border:1px solid var(--border); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:15px; transition:border-color .2s; }
     .theme-toggle:hover { border-color:var(--accent); }
-    .upload-btn { background:var(--accent); color:#000; border:none; padding:8px 16px; border-radius:8px; font-weight:700; font-size:12px; cursor:pointer; transition:opacity .2s; }
-    .upload-btn:hover { opacity:.85; }
-    #fileInput { display:none; }
-
-    /* TAB NAV */
-    .tab-nav { display:flex; gap:4px; padding:0 32px; background:var(--card); border-bottom:1px solid var(--border); }
-    .tab-btn { padding:10px 18px; font-size:12px; font-weight:600; border:none; background:transparent; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; transition:all .2s; }
+    .tab-nav { display:flex; gap:4px; padding:0 32px; background:var(--card); border-bottom:1px solid var(--border); overflow-x:auto; }
+    .tab-btn { padding:10px 18px; font-size:12px; font-weight:600; border:none; background:transparent; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; transition:all .2s; white-space:nowrap; }
     .tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
     .tab-btn:hover { color:var(--text); }
-
-    /* MAIN */
     main { padding:24px 32px; max-width:1440px; margin:0 auto; }
     .tab-panel { display:none; }
     .tab-panel.active { display:block; }
-
-    /* ALERT */
-    .alert-banner {
-      background:rgba(220,38,38,0.08); border:1px solid rgba(220,38,38,0.35);
-      border-radius:10px; padding:13px 18px; margin-bottom:22px;
-      display:flex; align-items:flex-start; gap:10px; font-size:13px; line-height:1.5;
-    }
+    .alert-banner { background:rgba(220,38,38,0.08); border:1px solid rgba(220,38,38,0.35); border-radius:10px; padding:13px 18px; margin-bottom:22px; display:flex; align-items:flex-start; gap:10px; font-size:13px; line-height:1.5; }
     .alert-banner.green { background:rgba(22,163,74,0.08); border-color:rgba(22,163,74,0.35); }
-
-    /* SECTION TITLE */
-    .section-title {
-      font-size:10px; font-weight:700; letter-spacing:1.5px; color:var(--muted);
-      text-transform:uppercase; margin:28px 0 12px;
-      padding-bottom:7px; border-bottom:1px solid var(--border);
-    }
-
-    /* KPI GRID */
+    .alert-banner.yellow { background:rgba(241,196,15,0.08); border-color:rgba(241,196,15,0.35); }
+    .section-title { font-size:10px; font-weight:700; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; margin:28px 0 12px; padding-bottom:7px; border-bottom:1px solid var(--border); }
     .kpi-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
-    .kpi-card {
-      background:var(--card); border:1px solid var(--border); border-radius:12px;
-      padding:16px 18px; box-shadow:var(--shadow); transition:border-color .2s,transform .15s;
-    }
+    .kpi-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px 18px; box-shadow:var(--shadow); transition:border-color .2s,transform .15s; }
     .kpi-card:hover { border-color:var(--accent); transform:translateY(-1px); }
     .kpi-label { font-size:10px; color:var(--muted); font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:7px; }
     .kpi-value { font-size:22px; font-weight:800; margin-bottom:4px; }
@@ -85,26 +54,17 @@
     .status-green  { background:var(--green); }
     .status-yellow { background:var(--yellow); }
     .status-red    { background:var(--red); }
-
-    /* H1 SUMMARY ROW */
     .summary-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:4px; }
-    .summary-card {
-      background:var(--card); border:1px solid var(--border); border-radius:12px;
-      padding:18px 20px; box-shadow:var(--shadow); text-align:center;
-    }
+    .summary-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px 20px; box-shadow:var(--shadow); text-align:center; }
     .summary-card .s-label { font-size:10px; color:var(--muted); font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
     .summary-card .s-value { font-size:28px; font-weight:800; }
     .summary-card .s-sub { font-size:11px; color:var(--muted); margin-top:4px; }
     .summary-card.highlight { border-color:var(--accent); }
-
-    /* CHARTS */
     .charts-row   { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-top:4px; }
     .charts-row-2 { display:grid; grid-template-columns:1fr 1fr;     gap:16px; margin-top:4px; }
     .chart-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px; box-shadow:var(--shadow); }
     .chart-title { font-size:12px; font-weight:700; margin-bottom:12px; color:var(--text); }
     .chart-container { position:relative; height:200px; }
-
-    /* TABLE */
     .table-card { background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-top:4px; box-shadow:var(--shadow); overflow-x:auto; }
     table { width:100%; border-collapse:collapse; font-size:12px; min-width:700px; }
     thead tr { background:var(--card2); }
@@ -114,8 +74,6 @@
     .positive { color:var(--green); font-weight:700; }
     .negative { color:var(--red);   font-weight:700; }
     .warning  { color:var(--yellow); font-weight:700; }
-
-    /* INSIGHTS */
     .insights-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:4px; }
     .insight-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px; box-shadow:var(--shadow); }
     .insight-icon  { font-size:18px; margin-bottom:7px; }
@@ -124,15 +82,11 @@
     .insight-card.danger  { border-color:rgba(231,76,60,0.4);  background:rgba(231,76,60,0.04); }
     .insight-card.warning { border-color:rgba(241,196,15,0.4); background:rgba(241,196,15,0.04); }
     .insight-card.success { border-color:rgba(46,204,113,0.4); background:rgba(46,204,113,0.04); }
-
-    /* TREND BADGE in table */
     .badge { display:inline-block; padding:2px 7px; border-radius:10px; font-size:10px; font-weight:700; }
     .badge-green  { background:rgba(46,204,113,0.15); color:var(--green); }
     .badge-red    { background:rgba(231,76,60,0.15);  color:var(--red); }
     .badge-yellow { background:rgba(241,196,15,0.15); color:var(--yellow); }
-
     footer { text-align:center; padding:20px; color:var(--muted); font-size:11px; border-top:1px solid var(--border); margin-top:36px; }
-
     @media(max-width:1000px) {
       .charts-row,.charts-row-2,.insights-grid { grid-template-columns:1fr; }
       .summary-row { grid-template-columns:1fr 1fr; }
@@ -152,8 +106,6 @@
   <div class="header-right">
     <span class="period-badge">📅 Jan–Jun 2026</span>
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
-    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">⬆ Upload P&L</button>
-    <input type="file" id="fileInput" accept=".csv,.json,.pdf" onchange="handleFileUpload(event)" />
   </div>
 </header>
 
@@ -162,45 +114,41 @@
   <button class="tab-btn" onclick="showTab('revenue',this)">Revenue & Margin</button>
   <button class="tab-btn" onclick="showTab('costs',this)">Cost Structure</button>
   <button class="tab-btn" onclick="showTab('detail',this)">Monthly Detail</button>
+  <button class="tab-btn" onclick="showTab('balance',this)">Balance Sheet</button>
   <button class="tab-btn" onclick="showTab('insights',this)">Insights</button>
 </div>
 
 <main>
 
-<!-- ═══════════════════════════ OVERVIEW ═══════════════════════════ -->
+<!-- OVERVIEW -->
 <div class="tab-panel active" id="tab-overview">
-
-  <div class="alert-banner" id="alertBanner">
-    <span style="font-size:18px;flex-shrink:0">🚨</span>
-    <div><strong>Two loss months in H1:</strong> January (-$836K) and April (-$203K) drive a YTD net loss of <strong>-$205,987</strong>. May & June returned to profitability. The pattern points to project-level revenue recognition timing and uncontrolled production spend.</div>
+  <div class="alert-banner yellow">
+    <span style="font-size:18px;flex-shrink:0">⚠️</span>
+    <div><strong>Two loss months — but H1 ends profitable:</strong> January (-$797K) and April (-$184K) were heavy losses. However, strong Q2 performance drove the company to an H1 net income of <strong>+$357,205</strong>. March was the standout month at $679K net income. Subcontractor costs remain elevated at 37.1% of revenue.</div>
   </div>
 
-  <div class="section-title">H1 2026 Scorecard</div>
   <div class="summary-row">
     <div class="summary-card highlight">
       <div class="s-label">H1 Total Revenue</div>
-      <div class="s-value" style="color:var(--accent2)">$3.29M</div>
-      <div class="s-sub">6-mo total · Jun run rate: $486K</div>
+      <div class="s-value" style="color:var(--accent)">$4.07M</div>
+      <div class="s-sub">↑ vs prior $3.29M est. · Annualized ~$8.1M</div>
     </div>
     <div class="summary-card">
       <div class="s-label">H1 Gross Profit</div>
-      <div class="s-value" style="color:var(--green)">$827K</div>
-      <div class="s-sub">Avg gross margin: 25.2%</div>
-    </div>
-    <div class="summary-card">
-      <div class="s-label">H1 Net Op. Income</div>
-      <div class="s-value" style="color:var(--red)">-$282K</div>
-      <div class="s-sub">Jan & Apr drag the total</div>
+      <div class="s-value" style="color:var(--green)">$1.49M</div>
+      <div class="s-sub">36.5% blended GM · Target: 50–65%</div>
     </div>
     <div class="summary-card">
       <div class="s-label">H1 Net Income</div>
-      <div class="s-value" style="color:var(--red)">-$206K</div>
-      <div class="s-sub">Improved vs Q1 (-$394K)</div>
+      <div class="s-value" style="color:var(--green)">$357K</div>
+      <div class="s-sub">8.8% net margin · Profitable H1</div>
+    </div>
+    <div class="summary-card">
+      <div class="s-label">Jun Net Income</div>
+      <div class="s-value" style="color:var(--green)">$102K</div>
+      <div class="s-sub">4th consecutive profitable month</div>
     </div>
   </div>
-
-  <div class="section-title">KPI Cards</div>
-  <div class="kpi-grid" id="kpiGrid"></div>
 
   <div class="section-title">Revenue & Profitability Trend</div>
   <div class="charts-row">
@@ -209,479 +157,459 @@
       <div class="chart-container"><canvas id="revenueChart"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-title">Gross Margin %</div>
-      <div class="chart-container"><canvas id="marginChart"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Net Operating Income</div>
-      <div class="chart-container"><canvas id="noiChart"></canvas></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════ REVENUE ═══════════════════════════ -->
-<div class="tab-panel" id="tab-revenue">
-  <div class="section-title">Revenue & Margin Deep Dive</div>
-  <div class="charts-row-2">
-    <div class="chart-card">
-      <div class="chart-title">Revenue vs COGS vs Gross Profit</div>
-      <div class="chart-container" style="height:260px"><canvas id="revCogChart"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Gross Margin % vs Net Margin % by Month</div>
-      <div class="chart-container" style="height:260px"><canvas id="marginCompChart"></canvas></div>
-    </div>
-  </div>
-  <div class="section-title">Revenue Concentration Risk</div>
-  <div class="alert-banner green">
-    <span style="font-size:18px;flex-shrink:0">📊</span>
-    <div>Revenue swings massively month-to-month: low of <strong>$223K (Apr)</strong> to high of <strong>$982K (Mar)</strong> — a 340% range. This suggests project-based lumpy revenue rather than stable retainers. Building MRR (retainer) base would dramatically stabilize cash flow.</div>
-  </div>
-  <div class="charts-row-2">
-    <div class="chart-card">
-      <div class="chart-title">Cumulative Revenue vs Cumulative COGS</div>
-      <div class="chart-container" style="height:240px"><canvas id="cumulChart"></canvas></div>
+      <div class="chart-title">Gross Margin % by Month</div>
+      <div class="chart-container"><canvas id="gmChart"></canvas></div>
     </div>
     <div class="chart-card">
       <div class="chart-title">Net Income by Month</div>
-      <div class="chart-container" style="height:240px"><canvas id="netIncomeChart"></canvas></div>
+      <div class="chart-container"><canvas id="netChart"></canvas></div>
     </div>
+  </div>
+
+  <div class="section-title">Key Performance Indicators</div>
+  <div class="kpi-grid" id="kpiGrid"></div>
+</div>
+
+<!-- REVENUE & MARGIN -->
+<div class="tab-panel" id="tab-revenue">
+  <div class="section-title">Revenue vs COGS vs Gross Profit</div>
+  <div class="charts-row-2">
+    <div class="chart-card">
+      <div class="chart-title">Revenue vs Total COGS</div>
+      <div class="chart-container" style="height:240px"><canvas id="revCOGSChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Gross Profit Waterfall</div>
+      <div class="chart-container" style="height:240px"><canvas id="gpWaterfallChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section-title">Division Revenue Breakdown (H1 2026)</div>
+  <div class="alert-banner">
+    <span style="font-size:18px;flex-shrink:0">📊</span>
+    <div><strong>Two Business Lines:</strong> Grizzly Core generated <strong>$2.53M</strong> (62%) and Outlier generated <strong>$1.55M</strong> (38%) of H1 revenue. Outlier's net income was <strong>$307K</strong> vs Grizzly Core's <strong>$50K</strong> — Outlier is punching above its weight in profitability.</div>
+  </div>
+  <div class="charts-row-2">
+    <div class="chart-card">
+      <div class="chart-title">Revenue by Division</div>
+      <div class="chart-container"><canvas id="divRevChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Net Income by Division</div>
+      <div class="chart-container"><canvas id="divNetChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section-title">Monthly Revenue Detail</div>
+  <div class="table-card">
+    <table>
+      <thead><tr><th>Month</th><th>Revenue</th><th>COGS</th><th>Gross Profit</th><th>GM%</th><th>Expenses</th><th>Net Income</th><th>NM%</th><th>Status</th></tr></thead>
+      <tbody id="revTable"></tbody>
+    </table>
   </div>
 </div>
 
-<!-- ═══════════════════════════ COSTS ═══════════════════════════ -->
+<!-- COST STRUCTURE -->
 <div class="tab-panel" id="tab-costs">
-  <div class="section-title">Cost Structure</div>
-  <div class="charts-row-2">
-    <div class="chart-card">
-      <div class="chart-title">COGS Breakdown by Month (Stacked)</div>
-      <div class="chart-container" style="height:260px"><canvas id="cogsChart"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">H1 Total Cost Mix (Donut)</div>
-      <div class="chart-container" style="height:260px"><canvas id="expenseDonut"></canvas></div>
-    </div>
-  </div>
-  <div class="section-title">Key Cost Lines Monthly</div>
+  <div class="section-title">H1 Cost Breakdown</div>
   <div class="charts-row">
     <div class="chart-card">
-      <div class="chart-title">Subcontractor Spend</div>
+      <div class="chart-title">Cost Category Mix (H1 Total)</div>
+      <div class="chart-container"><canvas id="costMixChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Subcontractor Spend by Month</div>
       <div class="chart-container"><canvas id="subChart"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-title">Internal Payroll</div>
+      <div class="chart-title">Internal Payroll by Month</div>
       <div class="chart-container"><canvas id="payrollChart"></canvas></div>
     </div>
-    <div class="chart-card">
-      <div class="chart-title">Travel (COGS + Internal)</div>
-      <div class="chart-container"><canvas id="travelChart"></canvas></div>
-    </div>
   </div>
-  <div class="section-title">Officer & Owner Costs</div>
-  <div class="alert-banner">
-    <span style="font-size:18px;flex-shrink:0">⚠️</span>
-    <div>Owner distributions total <strong>$275,000 in H1</strong> while the business has a -$206K net loss. Jun distributions dropped sharply to $10K — the right move. Consider formalizing a rule: distributions only when trailing 60-day NOI is positive.</div>
-  </div>
-  <div class="charts-row-2">
-    <div class="chart-card">
-      <div class="chart-title">Officer Total Cost by Month</div>
-      <div class="chart-container" style="height:220px"><canvas id="officerChart"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Owner Distributions by Month</div>
-      <div class="chart-container" style="height:220px"><canvas id="distChart"></canvas></div>
-    </div>
+
+  <div class="section-title">Cost Benchmarks vs Revenue</div>
+  <div class="table-card">
+    <table>
+      <thead><tr><th>Cost Category</th><th>H1 Total</th><th>% of Revenue</th><th>Industry Target</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Subcontractors</td><td>$1,509,357</td><td class="warning">37.1%</td><td>20–30%</td><td><span class="badge badge-yellow">Watch</span></td></tr>
+        <tr><td>Internal Payroll</td><td>$522,461</td><td class="positive">12.8%</td><td>15–25%</td><td><span class="badge badge-green">OK</span></td></tr>
+        <tr><td>Employee Benefits</td><td>$168,280</td><td class="positive">4.1%</td><td>3–6%</td><td><span class="badge badge-green">OK</span></td></tr>
+        <tr><td>COGS Travel</td><td>$100,250</td><td class="warning">2.5%</td><td>&lt;2%</td><td><span class="badge badge-yellow">Watch</span></td></tr>
+        <tr><td>Officer Comp (incl. distributions)</td><td>$523,062</td><td class="warning">12.8%</td><td>8–12%</td><td><span class="badge badge-yellow">Elevated</span></td></tr>
+        <tr><td>Technology (IT + SaaS)</td><td>$95,166</td><td class="positive">2.3%</td><td>2–5%</td><td><span class="badge badge-green">OK</span></td></tr>
+        <tr><td>Legal & Professional</td><td>$155,429</td><td class="warning">3.8%</td><td>&lt;3%</td><td><span class="badge badge-yellow">Watch</span></td></tr>
+        <tr><td>Internal Business Travel</td><td>$101,625</td><td class="warning">2.5%</td><td>&lt;2%</td><td><span class="badge badge-yellow">Watch</span></td></tr>
+        <tr><td>Office / Rent</td><td>$54,531</td><td class="positive">1.3%</td><td>2–5%</td><td><span class="badge badge-green">Efficient</span></td></tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
-<!-- ═══════════════════════════ DETAIL ═══════════════════════════ -->
+<!-- MONTHLY DETAIL -->
 <div class="tab-panel" id="tab-detail">
-  <div class="section-title">Monthly Detail Table</div>
+  <div class="section-title">Full Monthly P&L Summary</div>
   <div class="table-card">
     <table>
       <thead>
         <tr>
-          <th>Metric</th>
-          <th>Jan</th><th>Feb</th><th>Mar</th>
-          <th>Apr</th><th>May</th><th>Jun</th>
-          <th>H1 Total</th><th>Benchmark</th><th>Status</th>
+          <th>Line Item</th>
+          <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th><th>H1 Total</th>
         </tr>
       </thead>
-      <tbody id="tableBody"></tbody>
+      <tbody>
+        <tr><td><strong>Revenue</strong></td><td>$267,775</td><td>$864,878</td><td>$1,493,663</td><td>$223,000</td><td>$609,217</td><td>$614,516</td><td><strong>$4,073,048</strong></td></tr>
+        <tr><td>Total COGS</td><td class="negative">$898,412</td><td>$277,053</td><td>$585,993</td><td>$215,076</td><td>$284,924</td><td>$326,095</td><td>$2,587,553</td></tr>
+        <tr><td><strong>Gross Profit</strong></td><td class="negative">-$630,637</td><td class="positive">$587,825</td><td class="positive">$907,670</td><td class="positive">$7,924</td><td class="positive">$324,293</td><td class="positive">$288,421</td><td class="positive"><strong>$1,485,496</strong></td></tr>
+        <tr><td>GM %</td><td class="negative">-235.5%</td><td class="positive">68.0%</td><td class="positive">60.8%</td><td class="warning">3.6%</td><td class="positive">53.2%</td><td class="positive">46.9%</td><td class="warning">36.5%</td></tr>
+        <tr><td>— Subcontractors</td><td class="negative">$647,657</td><td>$87,353</td><td>$378,382</td><td>$45,874</td><td>$133,230</td><td>$216,860</td><td>$1,509,357</td></tr>
+        <tr><td>— Payroll Internal</td><td>$158,198</td><td>$83,286</td><td>$86,993</td><td>$110,086</td><td>$41,949</td><td>$41,949</td><td>$522,461</td></tr>
+        <tr><td>Total Expenses</td><td>$173,383</td><td>$205,889</td><td>$214,033</td><td>$241,760</td><td>$183,662</td><td>$183,061</td><td>$1,201,788</td></tr>
+        <tr><td>Net Oper. Income</td><td class="negative">-$804,020</td><td class="positive">$381,936</td><td class="positive">$693,636</td><td class="negative">-$233,836</td><td class="positive">$140,631</td><td class="positive">$105,360</td><td class="positive">$283,707</td></tr>
+        <tr><td>Other Income</td><td class="positive">$6,872</td><td class="negative">-$2,683</td><td class="negative">-$14,758</td><td class="positive">$50,142</td><td class="positive">$36,858</td><td class="negative">-$2,934</td><td class="positive">$73,498</td></tr>
+        <tr><td><strong>Net Income</strong></td><td class="negative"><strong>-$797,148</strong></td><td class="positive"><strong>$379,254</strong></td><td class="positive"><strong>$678,879</strong></td><td class="negative"><strong>-$183,695</strong></td><td class="positive"><strong>$177,490</strong></td><td class="positive"><strong>$102,426</strong></td><td class="positive"><strong>$357,205</strong></td></tr>
+        <tr><td>Net Margin %</td><td class="negative">-297.7%</td><td class="positive">43.8%</td><td class="positive">45.5%</td><td class="negative">-82.4%</td><td class="positive">29.1%</td><td class="positive">16.7%</td><td class="positive">8.8%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-title">Cash & Balance Sheet Highlights (Jun 30, 2026)</div>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Cash on Hand</div>
+      <div class="kpi-value" style="color:var(--green)">$319,826</div>
+      <div class="kpi-sub">Primary + Payroll checking</div>
+      <span class="kpi-trend trend-up">↑ Up from $30K in May</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Cash Reserves</div>
+      <div class="kpi-value" style="color:var(--green)">$916,336</div>
+      <div class="kpi-sub">Charles Schwab + savings accounts</div>
+      <span class="kpi-trend trend-neutral">~ Stable</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Accounts Receivable</div>
+      <div class="kpi-value" style="color:var(--yellow)">$364,607</div>
+      <div class="kpi-sub">Down from $780K in May</div>
+      <span class="kpi-trend trend-up">↑ Collections improving</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Accounts Payable</div>
+      <div class="kpi-value" style="color:var(--yellow)">$182,327</div>
+      <div class="kpi-sub">Jun 30 balance</div>
+      <span class="kpi-trend trend-neutral">~ Manageable</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Deferred Revenue</div>
+      <div class="kpi-value" style="color:var(--accent)">$771,031</div>
+      <div class="kpi-sub">Work contracted, not yet earned</div>
+      <span class="kpi-trend trend-up">↑ Strong pipeline</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Assets</div>
+      <div class="kpi-value">$2.23M</div>
+      <div class="kpi-sub">Jun 30 total assets</div>
+      <span class="kpi-trend trend-up">↑ Up from Jan $1.96M</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Line of Credit</div>
+      <div class="kpi-value" style="color:var(--green)">$504</div>
+      <div class="kpi-sub">Chase LOC nearly paid off</div>
+      <span class="kpi-trend trend-up">↑ Was $110K in May</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total Equity</div>
+      <div class="kpi-value" style="color:var(--green)">$799,854</div>
+      <div class="kpi-sub">Jun 30 book value</div>
+      <span class="kpi-trend trend-up">↑ Up from -$354K in Jan</span>
+    </div>
+  </div>
+</div>
+
+<!-- BALANCE SHEET -->
+<div class="tab-panel" id="tab-balance">
+  <div class="section-title">Balance Sheet Trend — Jan through Jun 2026</div>
+  <div class="charts-row-2">
+    <div class="chart-card">
+      <div class="chart-title">Total Assets vs Total Liabilities</div>
+      <div class="chart-container" style="height:240px"><canvas id="assetsLiabChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Cash on Hand vs Accounts Receivable</div>
+      <div class="chart-container" style="height:240px"><canvas id="cashARChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section-title">Balance Sheet Snapshot — Jun 30, 2026</div>
+  <div class="table-card">
+    <table>
+      <thead><tr><th>Category</th><th>Dec 31, 2025</th><th>Jan 2026</th><th>Mar 2026</th><th>Jun 2026</th><th>Jul 1-15 2026</th><th>Change (Dec→Jun)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Cash on Hand</strong></td><td>$130,409</td><td>$109,659</td><td>$93,162</td><td class="positive">$319,826</td><td>$51,821</td><td class="positive">+$189,417</td></tr>
+        <tr><td><strong>Cash Reserves (Schwab+)</strong></td><td>$1,526,051</td><td>$895,214</td><td>$852,518</td><td>$916,336</td><td>$916,351</td><td class="negative">-$609,715</td></tr>
+        <tr><td><strong>Accounts Receivable</strong></td><td>$314,393</td><td>$439,408</td><td>$825,285</td><td class="warning">$364,607</td><td>$483,227</td><td class="positive">+$50,214</td></tr>
+        <tr><td><strong>Total Assets</strong></td><td>$2,478,279</td><td>$1,961,928</td><td>$2,296,531</td><td>$2,230,061</td><td>$2,117,497</td><td class="negative">-$248,218</td></tr>
+        <tr><td><strong>Accounts Payable</strong></td><td>$91,196</td><td>$269,460</td><td>$236,014</td><td class="warning">$182,327</td><td>$220,213</td><td class="negative">+$91,131</td></tr>
+        <tr><td><strong>Deferred Revenue</strong></td><td>$1,425,845</td><td>$1,383,070</td><td>$771,031</td><td>$771,031</td><td>$771,031</td><td class="negative">-$654,814</td></tr>
+        <tr><td><strong>Auto Loans</strong></td><td>$235,914</td><td>$232,252</td><td>$224,872</td><td>$213,662</td><td>$213,662</td><td class="positive">-$22,252</td></tr>
+        <tr><td><strong>Total Liabilities</strong></td><td>$2,035,630</td><td>$2,316,427</td><td>$1,592,897</td><td>$1,430,207</td><td>$1,435,744</td><td class="positive">-$605,423</td></tr>
+        <tr><td><strong>Total Equity</strong></td><td>$442,649</td><td class="negative">-$354,499</td><td>$703,634</td><td class="positive">$799,854</td><td>$681,753</td><td class="positive">+$357,205</td></tr>
+      </tbody>
     </table>
   </div>
 </div>
 
-<!-- ═══════════════════════════ INSIGHTS ═══════════════════════════ -->
+<!-- INSIGHTS -->
 <div class="tab-panel" id="tab-insights">
-  <div class="section-title">Key Insights & Recommended Actions</div>
-  <div class="insights-grid" id="insightsGrid">
-    <div class="insight-card danger">
-      <div class="insight-icon">🔴</div>
-      <div class="insight-title">Revenue Timing vs. COGS Mismatch</div>
-      <div class="insight-body">January booked $896K COGS against $225K revenue. April booked $234K COGS against $223K revenue. Both months were deeply negative. Production spend is happening before (or instead of) revenue being recognized. Institute a hard rule: no production spend above 50% of contracted & signed revenue without CFO approval.</div>
-    </div>
-    <div class="insight-card danger">
-      <div class="insight-icon">🔴</div>
-      <div class="insight-title">YTD Net Loss: -$206K</div>
-      <div class="insight-body">Despite $3.29M in revenue, Grizzly is $206K in the red through June. The underlying engine (Feb, Mar, May, Jun) IS profitable. The problem is two catastrophic months dragging the whole year. Better project financial controls would have made H1 profitable by ~$400K+.</div>
-    </div>
-    <div class="insight-card warning">
-      <div class="insight-icon">🟡</div>
-      <div class="insight-title">Subcontractor Volatility Unresolved</div>
-      <div class="insight-body">Sub spend ranged from $64K (Apr) to $644K (Jan) across 6 months. Still no consistent pattern. This is the #1 margin risk. Every project needs a pre-signed subcontractor budget tied to client PO value before any work is authorized.</div>
-    </div>
-    <div class="insight-card warning">
-      <div class="insight-icon">🟡</div>
-      <div class="insight-title">$275K Owner Distributions in a Loss Year</div>
-      <div class="insight-body">$275K paid out to owners through June while the business is -$206K net. June's $10K distribution is a good step. Recommend tying all future distributions to a rolling 60-day profitability test — if trailing 2-month NOI is negative, distributions pause.</div>
-    </div>
-    <div class="insight-card warning">
-      <div class="insight-icon">🟡</div>
-      <div class="insight-title">Payroll Declining — Staff Restructuring?</div>
-      <div class="insight-body">Internal payroll dropped from $158K (Jan) to $34K (Jun) — a 78% reduction. This is dramatic. Either significant layoffs occurred or there's a classification shift from W2 to 1099. Worth verifying this is intentional and won't impact delivery capacity as revenue ramps.</div>
-    </div>
-    <div class="insight-card success">
-      <div class="insight-icon">🟢</div>
-      <div class="insight-title">May & June Show Real Recovery</div>
-      <div class="insight-body">May: +$174K net income. June: +$191K net income. Two consecutive profitable months at improving margins. If this holds through Q3, Grizzly could exit 2026 with a positive full-year result. The trend is definitively moving in the right direction.</div>
-    </div>
-    <div class="insight-card success">
-      <div class="insight-icon">🟢</div>
-      <div class="insight-title">H1 Total Revenue: $3.29M</div>
-      <div class="insight-body">$3.29M in 6 months puts Grizzly on pace for ~$6.5M annualized — a real agency at scale. The revenue is there. The challenge is purely margin discipline. If May/Jun margins hold (~39–58%), the business should generate $300–500K in H2 net income.</div>
-    </div>
-    <div class="insight-card success">
-      <div class="insight-icon">🟢</div>
-      <div class="insight-title">Operating Expenses Trending Down</div>
-      <div class="insight-body">Total OpEx dropped from $121K (Apr) to $58K (Jun) — a 52% reduction month-over-month. This is a significant improvement. Legal/consulting fees also dropped sharply in May/Jun. Keep monitoring to ensure this is structural and not just timing.</div>
-    </div>
-    <div class="insight-card warning">
-      <div class="insight-icon">🟡</div>
-      <div class="insight-title">Revenue Concentration: Lumpy Projects</div>
-      <div class="insight-body">Revenue swings from $223K to $982K month-to-month. With no visible retainer base, cash flow is unpredictable. Target 40%+ of revenue from retainer/monthly contracts by end of 2026. Even $200K/month MRR would fundamentally change the risk profile.</div>
-    </div>
+  <div class="alert-banner green">
+    <span style="font-size:18px;flex-shrink:0">✅</span>
+    <div><strong>H1 2026 closes profitable at +$357K net income.</strong> The business recovered strongly from January's catastrophic production loss. Q2 profitability is real and sustained. Key risk remaining: subcontractor cost volatility and revenue lumpiness.</div>
   </div>
 
-  <div class="section-title">Q1 vs Q2 Comparison</div>
-  <div class="table-card">
-    <table>
-      <thead>
-        <tr><th>Metric</th><th>Q1 2026</th><th>Q2 2026</th><th>Change</th><th>Verdict</th></tr>
-      </thead>
-      <tbody id="qtrTable"></tbody>
-    </table>
+  <div class="section-title">Critical Findings</div>
+  <div class="insights-grid">
+    <div class="insight-card danger">
+      <div class="insight-icon">🚨</div>
+      <div class="insight-title">January Production Blowout</div>
+      <div class="insight-body">January had $647K in subcontractor costs against only $268K in revenue — a 241% overrun. This single month cost the company ~$797K in net losses and nearly wiped out H1 profitability. A hard pre-approval rule for any project COGS exceeding 60% of billed revenue would prevent recurrence.</div>
+    </div>
+    <div class="insight-card danger">
+      <div class="insight-icon">⚡</div>
+      <div class="insight-title">Revenue Volatility — 6.6x Swing</div>
+      <div class="insight-body">Revenue ranged from $223K (Apr) to $1.49M (Mar) — a 6.6x monthly swing. This lumpy project-based revenue makes cash flow unpredictable. Target building 30–40% of revenue from retainer contracts. Even $250K/month in stable MRR would transform financial predictability.</div>
+    </div>
+    <div class="insight-card warning">
+      <div class="insight-icon">🔧</div>
+      <div class="insight-title">Subcontractor Rate: 37.1% of Revenue</div>
+      <div class="insight-body">H1 subcontractor spend was $1.51M — 37.1% of revenue. Industry target for a healthy agency is 20–30%. Outlier division drove $945K of this (62%). Evaluate whether Outlier's production model can shift more work in-house or renegotiate rate cards with top vendors.</div>
+    </div>
+    <div class="insight-card success">
+      <div class="insight-icon">📈</div>
+      <div class="insight-title">Q2 Turnaround is Real</div>
+      <div class="insight-body">Feb, Mar, May, and Jun were all profitable. Q2 net income of ~$96K proves the core business works when projects are properly scoped. Mar was exceptional at $679K net income on 45.5% net margin. The engine is healthy — it's project discipline that needs work.</div>
+    </div>
+    <div class="insight-card success">
+      <div class="insight-icon">💼</div>
+      <div class="insight-title">Outlier Division: Profit Leader</div>
+      <div class="insight-body">Outlier generated $1.55M in revenue but $307K net income (19.9% net margin). Grizzly Core generated $2.53M but only $50K net income (2.0% margin). Outlier is significantly more profitable per dollar of revenue. Consider replicating Outlier's operating model in the core agency.</div>
+    </div>
+    <div class="insight-card warning">
+      <div class="insight-icon">📉</div>
+      <div class="insight-title">Payroll Collapse: Intentional?</div>
+      <div class="insight-body">Internal payroll dropped from $158K (Jan) to $42K (May/Jun) — a 74% reduction. This is dramatic. Either significant team reductions occurred or classification shifted from W2 to 1099 (which inflates subcontractor line). Verify this is intentional and won't create delivery risk as H2 revenue ramps.</div>
+    </div>
+    <div class="insight-card success">
+      <div class="insight-icon">🏦</div>
+      <div class="insight-title">Balance Sheet Recovering</div>
+      <div class="insight-body">Total equity swung from -$354K in January to +$800K by June — a $1.15M improvement. Line of credit is nearly eliminated ($504 remaining vs. $146K in Jan). Deferred revenue of $771K signals strong contracted work ahead. The balance sheet is in the best shape since year-start.</div>
+    </div>
+    <div class="insight-card warning">
+      <div class="insight-icon">💸</div>
+      <div class="insight-title">Owner Distributions: $308K in H1</div>
+      <div class="insight-body">Officers drew $308K in distributions plus $148K payroll = $456K total officer comp in H1. At 11.2% of revenue this is elevated. During a recovery year, consider deferring discretionary distributions to build a cash buffer. Target 3–6 months of operating expenses (~$600K–$1.2M) in reserve.</div>
+    </div>
+    <div class="insight-card success">
+      <div class="insight-icon">🎯</div>
+      <div class="insight-title">H2 2026 Outlook</div>
+      <div class="insight-body">With $771K in deferred revenue already contracted, a healthy cash position ($1.24M total), and 4 consecutive profitable months, H2 is set up well. If May/Jun margins (47–53% gross) hold and no January-style blowouts occur, H2 net income could reach $500K–$800K, making FY2026 net income $850K–$1.1M.</div>
+    </div>
   </div>
 </div>
 
 </main>
-<footer>Grizzly Agency KPI Dashboard &nbsp;·&nbsp; H1 2026 (Jan–Jun) &nbsp;·&nbsp; Accrual Basis &nbsp;·&nbsp; Updated June 18, 2026</footer>
+
+<footer>Grizzly Agency KPI Dashboard &nbsp;·&nbsp; H1 2026 (Jan–Jun) &nbsp;·&nbsp; Accrual Basis &nbsp;·&nbsp; Updated July 15, 2026</footer>
 
 <script>
-// ═══════════════════════════════════════════════
-// DATA — all 6 months from P&L
-// ═══════════════════════════════════════════════
-const M = ['Jan','Feb','Mar','Apr','May','Jun'];
+// ── DATA ──────────────────────────────────────────────────────────
+const months = ['Jan','Feb','Mar','Apr','May','Jun'];
 const D = {
-  revenue:        [225000, 764878.28, 981623.50, 223000, 609217, 486108],
-  cogs:           [894811.99, 277053.41, 563525.93, 233943.33, 288923.52, 203890.75],
-  grossProfit:    [-669811.99, 487824.87, 418097.57, -10943.33, 320293.48, 282217.25],
-  opEx:           [173413.10, 205298.63, 214738.01, 241731.60, 183573.16, 91342.17],
-  noi:            [-843225.09, 282526.24, 203359.56, -252674.93, 136720.32, 190875.08],
-  netIncome:      [-836353.38, 279843.68, 188601.99, -202533.14, 173578.74, 190875.08],
-  payroll:        [188513.08, 174880.35, 178644.45, 166271.44, 114756.37, 74422.48],
-  subcontractors: [644056.50, 87353.00, 355914.98, 64741.15, 137230.40, 122510.00],
-  travelCogs:     [55538.62, 5914.95, 7891.08, 0, 24390.23, 6514.87],
-  travelInternal: [13417.84, 10186.54, 24140.34, 20293.98, 20632.19, 4111.10],
-  technology:     [16060.16, 21060.99, 17615.74, 15983.44, 9716.59, 17065.56],
-  legalProf:      [28483.38, 28407.20, 33982.12, 30583.93, 18464.40, 15508.14],
-  officers:       [84860.92, 101732.00, 68731.86, 98731.85, 88731.86, 14852.70],
-  distributions:  [50000, 66000, 33000, 63000, 53000, 10000],
-  officerPayroll: [22408.44, 25158.48, 25158.48, 25158.47, 25158.48, 0],
+  revenue:     [267775, 864878, 1493663, 223000, 609217, 614516],
+  cogs:        [898412, 277053, 585993,  215076, 284924, 326095],
+  grossProfit: [-630637, 587825, 907670, 7924,   324293, 288421],
+  expenses:    [173383, 205889, 214033,  241760, 183662, 183061],
+  netOpIncome: [-804020, 381936, 693636, -233836, 140631, 105360],
+  otherIncome: [6872,  -2683,  -14758,  50142,  36858,  -2934],
+  netIncome:   [-797148, 379254, 678879, -183695, 177490, 102426],
+  subcontract: [647657, 87353,  378382,  45874,  133230, 216860],
+  payroll:     [158198, 83286,  86993,   110086, 41949,  41949],
 };
-const travel = D.travelCogs.map((v,i) => v + D.travelInternal[i]);
+const T = {
+  revenue: 4073048, grossProfit: 1485496, netIncome: 357205,
+  subcontractors: 1509357, payroll: 522461, expenses: 1201788,
+  cogs: 2587553
+};
 
-// Totals
-const T = {};
-Object.keys(D).forEach(k => T[k] = D[k].reduce((a,b)=>a+b,0));
-T.revenue_h1    = 3289826.78;
-T.grossProfit_h1= 827677.85;
-T.noi_h1        = -282418.82;
-T.netIncome_h1  = -205987.03;
+// Balance sheet data
+const BS = {
+  months: ['Jan','Feb','Mar','Apr','May','Jun'],
+  assets:      [1961928, 1971753, 2296531, 1901594, 2250371, 2230061],
+  liabilities: [2316427, 1946998, 1592897, 1381655, 1552942, 1430207],
+  cash:        [109659,  430331,  93162,   66678,   30385,   319826],
+  ar:          [439408,  159316,  825285,  371300,  780517,  364607],
+};
 
-function fmt(n) {
-  if (n === null || n === undefined) return '—';
-  const abs = Math.abs(n), pre = n < 0 ? '-$' : '$';
-  if (abs >= 1e6) return pre + (abs/1e6).toFixed(2) + 'M';
-  if (abs >= 1000) return pre + (abs/1000).toFixed(1) + 'K';
-  return pre + abs.toFixed(0);
-}
-function pct(n) { return n.toFixed(1) + '%'; }
-function gm(i)  { return (D.grossProfit[i] / D.revenue[i] * 100); }
-function nm(i)  { return (D.netIncome[i] / D.revenue[i] * 100); }
+function fmt(v)  { return (v<0?'-':'')+'$'+Math.abs(Math.round(v)).toLocaleString(); }
+function pct(v)  { return (v*100).toFixed(1)+'%'; }
+function gm(i)   { return D.grossProfit[i]/D.revenue[i]*100; }
+function nm(i)   { return D.netIncome[i]/D.revenue[i]*100; }
 
-// ═══════════════════════════════════════════════
-// THEME
-// ═══════════════════════════════════════════════
-let theme = 'dark';
+// ── THEME ─────────────────────────────────────────────────────────
+function getCSSVar(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+let isDark = true;
 function toggleTheme() {
-  theme = theme === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', theme);
-  document.getElementById('themeToggle').textContent = theme === 'dark' ? '🌙' : '☀️';
-  destroyCharts(); buildCharts();
-}
-let CI = {};
-function destroyCharts() { Object.values(CI).forEach(c=>c.destroy()); CI={}; }
-function cc() {
-  return theme==='dark'
-    ? { text:'#7b82a0', grid:'rgba(255,255,255,0.06)', card:'#1a1d27' }
-    : { text:'#6b7280', grid:'rgba(0,0,0,0.06)', card:'#ffffff' };
-}
-function scaleY(fmt_fn) {
-  const c = cc();
-  return {
-    x: { ticks:{color:c.text,font:{size:10}}, grid:{color:c.grid} },
-    y: { ticks:{color:c.text,font:{size:10},callback:fmt_fn}, grid:{color:c.grid} }
-  };
-}
-function scaleYPct() {
-  const c = cc();
-  return {
-    x: { ticks:{color:c.text,font:{size:10}}, grid:{color:c.grid} },
-    y: { ticks:{color:c.text,font:{size:10},callback:v=>v+'%'}, grid:{color:c.grid} }
-  };
-}
-function legendOpts() { return { labels:{color:cc().text,font:{size:10}} }; }
-
-// ═══════════════════════════════════════════════
-// KPI CARDS
-// ═══════════════════════════════════════════════
-const kpis = [
-  { l:'H1 Revenue',        v:fmt(T.revenue_h1),     s:'$3.29M total · Jun: $486K/mo',  tr:'↑ Strong growth', tc:'trend-up',      b:'Annualized ~$6.6M', sc:'status-green' },
-  { l:'H1 Gross Profit',   v:fmt(T.grossProfit_h1), s:'Avg margin: 25.2%',             tr:'↓ Below 50% target', tc:'trend-down', b:'Target: 50–65%',    sc:'status-red' },
-  { l:'Jun Gross Margin',  v:pct(gm(5)),            s:'May: '+pct(gm(4)),               tr:'↑ Recovering',    tc:'trend-up',      b:'Target: 50–65%',    sc:'status-yellow' },
-  { l:'H1 Net Income',     v:fmt(T.netIncome_h1),   s:'Improved from Q1 (-$394K)',     tr:'↑ Improving',     tc:'trend-neutral', b:'Target: positive',  sc:'status-red' },
-  { l:'Jun Net Income',    v:fmt(D.netIncome[5]),   s:'May: '+fmt(D.netIncome[4]),      tr:'↑ 2nd profitable mo', tc:'trend-up', b:'>$100K/mo ✓',       sc:'status-green' },
-  { l:'Subcontractors H1', v:fmt(T.subcontractors), s:'42.9% of H1 revenue',           tr:'↓ Volatile swing', tc:'trend-down',   b:'Target: 20–35%',    sc:'status-red' },
-  { l:'Jun Payroll',       v:fmt(D.payroll[5]),     s:'Down from $189K in Jan',         tr:'↓ 78% reduction', tc:'trend-neutral', b:'Monitor capacity',  sc:'status-yellow' },
-  { l:'H1 Travel Total',   v:fmt(travel.reduce((a,b)=>a+b,0)), s:'COGS + internal',     tr:'↑ $193K total',   tc:'trend-down',    b:'Watch: ~$32K/mo',   sc:'status-yellow' },
-  { l:'Owner Distributions',v:fmt(T.distributions), s:'Jun dropped to $10K ✓',         tr:'↓ Jun corrected', tc:'trend-neutral', b:'Tie to profitability',sc:'status-yellow' },
-  { l:'H1 Technology',     v:fmt(T.technology),     s:'~$16K/mo avg',                   tr:'→ Stable',        tc:'trend-neutral', b:'2–4% of rev ✓',    sc:'status-green' },
-];
-
-const grid = document.getElementById('kpiGrid');
-kpis.forEach(k => {
-  grid.innerHTML += `<div class="kpi-card">
-    <div class="kpi-label">${k.l}</div>
-    <div class="kpi-value">${k.v}</div>
-    <div class="kpi-sub">${k.s}</div>
-    <span class="kpi-trend ${k.tc}">${k.tr}</span>
-    <div class="kpi-benchmark"><span class="kpi-status ${k.sc}"></span>${k.b}</div>
-  </div>`;
-});
-
-// ═══════════════════════════════════════════════
-// MONTHLY DETAIL TABLE
-// ═══════════════════════════════════════════════
-const rows = [
-  { m:'Revenue',          v:D.revenue,        tot:T.revenue_h1,    b:'—',        f:fmt, chk:(v,i)=>'positive' },
-  { m:'COGS',             v:D.cogs,           tot:T[`cogs`],       b:'<50% rev', f:fmt, chk:(v,i)=>v/D.revenue[i]<.5?'positive':v/D.revenue[i]<.65?'warning':'negative' },
-  { m:'Gross Profit',     v:D.grossProfit,    tot:T.grossProfit_h1,b:'>0',       f:fmt, chk:v=>v>0?'positive':'negative' },
-  { m:'Gross Margin %',   v:D.revenue.map((_,i)=>gm(i)), tot:T.grossProfit_h1/T.revenue_h1*100, b:'50–65%', f:v=>pct(v), chk:v=>v>=50?'positive':v>=30?'warning':'negative' },
-  { m:'Total Expenses',   v:D.opEx,           tot:T.opEx,          b:'<30% rev', f:fmt, chk:(v,i)=>v/D.revenue[i]<.3?'positive':'warning' },
-  { m:'Net Op. Income',   v:D.noi,            tot:T.noi_h1,        b:'>0',       f:fmt, chk:v=>v>0?'positive':'negative' },
-  { m:'Net Income',       v:D.netIncome,      tot:T.netIncome_h1,  b:'>0',       f:fmt, chk:v=>v>0?'positive':'negative' },
-  { m:'Net Margin %',     v:D.revenue.map((_,i)=>nm(i)), tot:T.netIncome_h1/T.revenue_h1*100, b:'>10%', f:v=>pct(v), chk:v=>v>=10?'positive':v>=0?'warning':'negative' },
-  { m:'Subcontractors',   v:D.subcontractors, tot:T.subcontractors,b:'<35% rev', f:fmt, chk:(v,i)=>v/D.revenue[i]<.35?'positive':'negative' },
-  { m:'Payroll (Empl.)',  v:D.payroll,        tot:T.payroll,       b:'15–25%',   f:fmt, chk:(v,i)=>{const p=v/D.revenue[i];return p<.25?'positive':p<.5?'warning':'negative';} },
-  { m:'Travel (Total)',   v:travel,           tot:travel.reduce((a,b)=>a+b,0), b:'<5% rev', f:fmt, chk:(v,i)=>v/D.revenue[i]<.05?'positive':v/D.revenue[i]<.1?'warning':'negative' },
-  { m:'Technology',       v:D.technology,     tot:T.technology,    b:'2–5%',     f:fmt, chk:(v,i)=>{const p=v/D.revenue[i];return p<.05?'positive':'warning';} },
-  { m:'Officer Total',    v:D.officers,       tot:T.officers,      b:'<10%',     f:fmt, chk:(v,i)=>v/D.revenue[i]<.1?'positive':'warning' },
-  { m:'Owner Distributions', v:D.distributions, tot:T.distributions,b:'Tie to profit',f:fmt, chk:(v,i)=>D.noi[i]>0&&v<D.noi[i]?'positive':D.noi[i]<0&&v>0?'negative':'warning' },
-];
-
-const tbody = document.getElementById('tableBody');
-rows.forEach(r => {
-  const cells = r.v.map((v,i)=>`<td class="${r.chk(v,i)}">${r.f(v)}</td>`).join('');
-  const last = r.v[5]; const lCls = r.chk(last,5);
-  const dot = lCls==='positive'?'status-green':lCls==='warning'?'status-yellow':'status-red';
-  tbody.innerHTML += `<tr><td style="font-weight:600">${r.m}</td>${cells}<td class="${r.chk(r.tot,0)}">${r.f(r.tot)}</td><td style="font-size:10px;color:var(--muted)">${r.b}</td><td><span class="kpi-status ${dot}"></span></td></tr>`;
-});
-
-// Q1 vs Q2 Table
-const q1q2 = [
-  { m:'Revenue',    q1:D.revenue.slice(0,3).reduce((a,b)=>a+b), q2:D.revenue.slice(3).reduce((a,b)=>a+b), better:'higher', f:fmt },
-  { m:'Gross Profit',q1:D.grossProfit.slice(0,3).reduce((a,b)=>a+b), q2:D.grossProfit.slice(3).reduce((a,b)=>a+b), better:'higher', f:fmt },
-  { m:'Gross Margin',q1:D.grossProfit.slice(0,3).reduce((a,b)=>a+b)/D.revenue.slice(0,3).reduce((a,b)=>a+b)*100, q2:D.grossProfit.slice(3).reduce((a,b)=>a+b)/D.revenue.slice(3).reduce((a,b)=>a+b)*100, better:'higher', f:v=>pct(v) },
-  { m:'Net Income', q1:D.netIncome.slice(0,3).reduce((a,b)=>a+b), q2:D.netIncome.slice(3).reduce((a,b)=>a+b), better:'higher', f:fmt },
-  { m:'Subcontractors',q1:D.subcontractors.slice(0,3).reduce((a,b)=>a+b), q2:D.subcontractors.slice(3).reduce((a,b)=>a+b), better:'lower', f:fmt },
-  { m:'Payroll',    q1:D.payroll.slice(0,3).reduce((a,b)=>a+b), q2:D.payroll.slice(3).reduce((a,b)=>a+b), better:'lower', f:fmt },
-  { m:'Total OpEx', q1:D.opEx.slice(0,3).reduce((a,b)=>a+b), q2:D.opEx.slice(3).reduce((a,b)=>a+b), better:'lower', f:fmt },
-  { m:'Owner Distrib.',q1:D.distributions.slice(0,3).reduce((a,b)=>a+b), q2:D.distributions.slice(3).reduce((a,b)=>a+b), better:'lower', f:fmt },
-  { m:'Travel',     q1:travel.slice(0,3).reduce((a,b)=>a+b), q2:travel.slice(3).reduce((a,b)=>a+b), better:'lower', f:fmt },
-];
-const qt = document.getElementById('qtrTable');
-q1q2.forEach(r => {
-  const chg = r.q2 - r.q1;
-  const pct_chg = ((chg / Math.abs(r.q1)) * 100).toFixed(1);
-  const improved = r.better === 'higher' ? chg > 0 : chg < 0;
-  const cls = improved ? 'positive' : Math.abs(chg) < Math.abs(r.q1)*0.05 ? '' : 'negative';
-  const arrow = chg > 0 ? '↑' : '↓';
-  const badge = improved ? 'badge-green' : 'badge-red';
-  qt.innerHTML += `<tr>
-    <td style="font-weight:600">${r.m}</td>
-    <td>${r.f(r.q1)}</td>
-    <td>${r.f(r.q2)}</td>
-    <td class="${cls}">${arrow} ${r.f(Math.abs(chg))} (${Math.abs(pct_chg)}%)</td>
-    <td><span class="badge ${badge}">${improved ? '✓ Better' : '✗ Worse'}</span></td>
-  </tr>`;
-});
-
-// ═══════════════════════════════════════════════
-// CHARTS
-// ═══════════════════════════════════════════════
-function buildCharts() {
-  const c = cc();
-
-  CI.revenue = new Chart(document.getElementById('revenueChart'), {
-    type:'bar',
-    data:{ labels:M, datasets:[{ label:'Revenue', data:D.revenue, backgroundColor:D.revenue.map(v=>'rgba(79,142,247,0.75)'), borderRadius:5 }] },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:legendOpts()}, scales:scaleY(v=>fmt(v)) }
-  });
-
-  CI.margin = new Chart(document.getElementById('marginChart'), {
-    type:'line',
-    data:{ labels:M, datasets:[
-      { label:'Gross Margin %', data:M.map((_,i)=>gm(i)), borderColor:'#f5a623', backgroundColor:'rgba(245,166,35,0.1)', fill:true, tension:0.4, pointRadius:4 },
-      { label:'Target 50%',     data:M.map(()=>50), borderColor:'rgba(46,204,113,0.5)', borderDash:[5,5], pointRadius:0 }
-    ]},
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:legendOpts()}, scales:scaleYPct() }
-  });
-
-  CI.noi = new Chart(document.getElementById('noiChart'), {
-    type:'bar',
-    data:{ labels:M, datasets:[{ label:'Net Op. Income', data:D.noi, backgroundColor:D.noi.map(v=>v>=0?'rgba(46,204,113,0.75)':'rgba(231,76,60,0.75)'), borderRadius:5 }] },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:legendOpts()}, scales:scaleY(v=>fmt(v)) }
-  });
-
-  CI.revCog = new Chart(document.getElementById('revCogChart'), {
-    type:'bar',
-    data:{ labels:M, datasets:[
-      { label:'Revenue',      data:D.revenue,      backgroundColor:'rgba(79,142,247,0.8)', borderRadius:4 },
-      { label:'COGS',         data:D.cogs,         backgroundColor:'rgba(231,76,60,0.7)',  borderRadius:4 },
-      { label:'Gross Profit', data:D.grossProfit,  backgroundColor:D.grossProfit.map(v=>v>=0?'rgba(46,204,113,0.7)':'rgba(255,100,100,0.5)'), borderRadius:4 }
-    ]},
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:legendOpts()}, scales:scaleY(v=>fmt(v)) }
-  });
-
-  CI.marginComp = new Chart(document.getElementById('marginCompChart'), {
-    type:'line',
-    data:{ labels:M, datasets:[
-      { label:'Gross Margin %', data:M.map((_,i)=>gm(i)), borderColor:'#f5a623', tension:0.4, pointRadius:4, fill:false },
-      { label:'Net Margin %',   data:M.map((_,i)=>nm(i)), borderColor:'#4f8ef7', tension:0.4, pointRadius:4, fill:false },
-      { label:'0% Line',        data:M.map(()=>0), borderColor:'rgba(231,76,60,0.4)', borderDash:[4,4], pointRadius:0 }
-    ]},
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:legendOpts()}, scales:scaleYPct() }
-  });
-
-  const cumRev = [], cumCogs = [];
-  D.revenue.reduce((a,v,i)=>{ cumRev[i]=a+v; return a+v; },0);
-  D.cogs.reduce((a,v,i)=>{ cumCogs[i]=a+v; return a+v; },0);
-  CI.cumul = new Chart(document.getElementById('cumulChart'), {
-    type:'line',
-    data:{ labels:M, datasets:[
-      { label:'Cumulative Revenue', data:cumRev, borderColor:'#4f8ef7', fill:false, tension:0.3, pointRadius:4 },
-      { label:'Cumulative COGS',    data:cumCogs,borderColor:'#e74c3c', fill:false, tension:0.3, pointRadius:4 }
-    ]},
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:legendOpts()}, scales:scaleY(v=>fmt(v)) }
-  });
-
-  CI.netIncome = new Chart(document.getElementById('netIncomeChart'), {
-    type:'bar',
-    data:{ labels:M, datasets:[{ label:'Net Income', data:D.netIncome, backgroundColor:D.netIncome.map(v=>v>=0?'rgba(46,204,113,0.75)':'rgba(231,76,60,0.75)'), borderRadius:5 }] },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:legendOpts()}, scales:scaleY(v=>fmt(v)) }
-  });
-
-  CI.cogs = new Chart(document.getElementById('cogsChart'), {
-    type:'bar',
-    data:{ labels:M, datasets:[
-      { label:'Subcontractors', data:D.subcontractors,  backgroundColor:'rgba(231,76,60,0.8)' },
-      { label:'Payroll',        data:D.payroll,          backgroundColor:'rgba(79,142,247,0.8)' },
-      { label:'Travel (COGS)',  data:D.travelCogs,       backgroundColor:'rgba(245,166,35,0.8)' },
-      { label:'Other COGS',     data:[0,2974.55,23863.07,7672.74,22052.52,3373.40], backgroundColor:'rgba(156,163,175,0.5)' },
-    ]},
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:legendOpts()},
-      scales:{ x:{stacked:true,ticks:{color:c.text,font:{size:10}},grid:{color:c.grid}}, y:{stacked:true,ticks:{color:c.text,font:{size:10},callback:v=>fmt(v)},grid:{color:c.grid}} } }
-  });
-
-  CI.donut = new Chart(document.getElementById('expenseDonut'), {
-    type:'doughnut',
-    data:{
-      labels:['Subcontractors','Payroll','Officers','Legal/Prof','Office Exp','Travel','Technology','Other OpEx'],
-      datasets:[{ data:[T.subcontractors, T.payroll, T.officers, T.legalProf, 126528.96, travel.reduce((a,b)=>a+b), T.technology, 60000],
-        backgroundColor:['rgba(231,76,60,0.85)','rgba(79,142,247,0.85)','rgba(245,166,35,0.85)',
-          'rgba(155,89,182,0.85)','rgba(52,152,219,0.7)','rgba(241,196,15,0.85)','rgba(46,204,113,0.85)','rgba(156,163,175,0.6)'],
-        borderWidth:2, borderColor: theme==='dark'?'#1a1d27':'#ffffff' }]
-    },
-    options:{ responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{position:'right',labels:{color:c.text,font:{size:10},padding:8}},
-        tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${fmt(ctx.raw)}`}} } }
-  });
-
-  CI.sub = new Chart(document.getElementById('subChart'), {
-    type:'bar',
-    data:{ labels:M, datasets:[{ label:'Subcontractors', data:D.subcontractors, backgroundColor:'rgba(231,76,60,0.75)', borderRadius:5 }] },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:legendOpts()}, scales:scaleY(v=>fmt(v)) }
-  });
-
-  CI.payroll = new Chart(document.getElementById('payrollChart'), {
-    type:'bar',
-    data:{ labels:M, datasets:[{ label:'Internal Payroll', data:D.payroll, backgroundColor:'rgba(79,142,247,0.75)', borderRadius:5 }] },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:legendOpts()}, scales:scaleY(v=>fmt(v)) }
-  });
-
-  CI.travel = new Chart(document.getElementById('travelChart'), {
-    type:'bar',
-    data:{ labels:M, datasets:[
-      { label:'Travel COGS',     data:D.travelCogs,    backgroundColor:'rgba(245,166,35,0.8)', borderRadius:0 },
-      { label:'Travel Internal', data:D.travelInternal,backgroundColor:'rgba(241,196,15,0.6)', borderRadius:0 }
-    ]},
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:legendOpts()},
-      scales:{ x:{stacked:true,ticks:{color:c.text,font:{size:10}},grid:{color:c.grid}}, y:{stacked:true,ticks:{color:c.text,font:{size:10},callback:v=>fmt(v)},grid:{color:c.grid}} } }
-  });
-
-  CI.officer = new Chart(document.getElementById('officerChart'), {
-    type:'bar',
-    data:{ labels:M, datasets:[{ label:'Officer Total', data:D.officers, backgroundColor:'rgba(155,89,182,0.75)', borderRadius:5 }] },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:legendOpts()}, scales:scaleY(v=>fmt(v)) }
-  });
-
-  CI.dist = new Chart(document.getElementById('distChart'), {
-    type:'bar',
-    data:{ labels:M, datasets:[{ label:'Owner Distributions', data:D.distributions, backgroundColor:D.distributions.map((v,i)=>D.noi[i]<0?'rgba(231,76,60,0.8)':'rgba(245,166,35,0.7)'), borderRadius:5 }] },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:legendOpts()}, scales:scaleY(v=>fmt(v)) }
-  });
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('themeToggle').textContent = isDark ? '🌙' : '☀️';
+  setTimeout(buildAllCharts, 50);
 }
 
-buildCharts();
-
-// ═══════════════════════════════════════════════
-// TABS
-// ═══════════════════════════════════════════════
-function showTab(name, btn) {
+// ── TABS ──────────────────────────────────────────────────────────
+function showTab(id, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-'+name).classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
   btn.classList.add('active');
-  // Rebuild charts so they size correctly in new tab
-  destroyCharts(); buildCharts();
+  setTimeout(buildAllCharts, 50);
 }
 
-function handleFileUpload(e) {
-  const f = e.target.files[0];
-  if (!f) return;
-  alert(`📊 "${f.name}" received!\n\nFull CSV auto-parsing coming soon — dashboard is currently loaded with your H1 2026 actuals.`);
+// ── CHARTS ────────────────────────────────────────────────────────
+const chartReg = {};
+function mkChart(id, cfg) {
+  if (chartReg[id]) chartReg[id].destroy();
+  const ctx = document.getElementById(id);
+  if (!ctx) return;
+  chartReg[id] = new Chart(ctx, cfg);
 }
+
+function buildAllCharts() {
+  const primary = 'hsl('+getCSSVar('--accent').replace('#f5a623','38 91% 55%')+')';
+  const acc  = '#f5a623';
+  const acc2 = '#4f8ef7';
+  const grn  = getCSSVar('--green');
+  const red  = getCSSVar('--red');
+  const muted = 'hsl('+getCSSVar('--muted-foreground')+')' || '#7b82a0';
+  const borderC = getCSSVar('--border') || '#2e3350';
+  const textC   = getCSSVar('--text')   || '#e8eaf0';
+
+  const baseOpts = (yFmt) => ({
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>yFmt?yFmt(c.raw):c.raw}} },
+    scales:{
+      x:{ ticks:{color:'#7b82a0',font:{size:10}}, grid:{color:borderC} },
+      y:{ ticks:{color:'#7b82a0',font:{size:10}, callback: v=>yFmt?yFmt(v):v}, grid:{color:borderC} }
+    }
+  });
+
+  // Revenue bar
+  mkChart('revenueChart',{type:'bar',data:{labels:months,datasets:[{data:D.revenue,backgroundColor:acc,borderWidth:0,hoverBackgroundColor:acc}]},options:baseOpts(v=>'$'+(v/1000).toFixed(0)+'K')});
+
+  // Gross margin line
+  const gmData = months.map((_,i)=>+gm(i).toFixed(1));
+  mkChart('gmChart',{type:'line',data:{labels:months,datasets:[{data:gmData,borderColor:acc,backgroundColor:acc+'33',fill:true,tension:0.4,pointBackgroundColor:gmData.map(v=>v<0?red:v<30?'#f1c40f':grn),pointRadius:5,borderWidth:2}]},options:{...baseOpts(v=>v+'%'),plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+'%'}}}}});
+
+  // Net income bar
+  mkChart('netChart',{type:'bar',data:{labels:months,datasets:[{data:D.netIncome,backgroundColor:D.netIncome.map(v=>v<0?red:grn),borderWidth:0}]},options:baseOpts(v=>'$'+(v/1000).toFixed(0)+'K')});
+
+  // Rev vs COGS
+  mkChart('revCOGSChart',{type:'bar',data:{labels:months,datasets:[
+    {label:'Revenue',data:D.revenue,backgroundColor:acc,borderWidth:0},
+    {label:'COGS',data:D.cogs,backgroundColor:red+'99',borderWidth:0}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:'#7b82a0',font:{size:11}}}},scales:{x:{stacked:false,ticks:{color:'#7b82a0',font:{size:10}},grid:{color:borderC}},y:{ticks:{color:'#7b82a0',font:{size:10},callback:v=>'$'+(v/1000).toFixed(0)+'K'},grid:{color:borderC}}}}});
+
+  // GP waterfall
+  mkChart('gpWaterfallChart',{type:'bar',data:{labels:months,datasets:[{data:D.grossProfit,backgroundColor:D.grossProfit.map(v=>v<0?red:v<100000?'#f1c40f':grn),borderWidth:0}]},options:baseOpts(v=>'$'+(v/1000).toFixed(0)+'K')});
+
+  // Division revenue
+  mkChart('divRevChart',{type:'doughnut',data:{labels:['Grizzly Core ($2.53M)','Outlier ($1.55M)'],datasets:[{data:[2527173,1545876],backgroundColor:[acc,acc2],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{color:'#7b82a0',font:{size:11}}}}}});
+
+  // Division net income
+  mkChart('divNetChart',{type:'bar',data:{labels:['Grizzly Core','Outlier'],datasets:[{data:[49722,307483],backgroundColor:[acc,acc2],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.raw)}}},scales:{x:{ticks:{color:'#7b82a0'},grid:{color:borderC}},y:{ticks:{color:'#7b82a0',callback:v=>'$'+(v/1000).toFixed(0)+'K'},grid:{color:borderC}}}}});
+
+  // Cost mix donut
+  mkChart('costMixChart',{type:'doughnut',data:{labels:['Subcontractors','Payroll','Benefits','Officer Comp','Operating Exp','Travel COGS'],datasets:[{data:[1509357,522461,168280,523062,557498,100250],backgroundColor:[red,acc,acc2,'#9b59b6','#1abc9c','#e67e22'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{color:'#7b82a0',font:{size:10},boxWidth:12}}}}});
+
+  // Subcontractor bar
+  mkChart('subChart',{type:'bar',data:{labels:months,datasets:[{data:D.subcontract,backgroundColor:red+'bb',borderWidth:0}]},options:baseOpts(v=>'$'+(v/1000).toFixed(0)+'K')});
+
+  // Payroll bar
+  mkChart('payrollChart',{type:'bar',data:{labels:months,datasets:[{data:D.payroll,backgroundColor:acc2,borderWidth:0}]},options:baseOpts(v=>'$'+(v/1000).toFixed(0)+'K')});
+
+  // Assets vs Liabilities
+  mkChart('assetsLiabChart',{type:'line',data:{labels:months,datasets:[
+    {label:'Total Assets',data:BS.assets,borderColor:grn,backgroundColor:grn+'22',fill:true,tension:0.4,borderWidth:2,pointRadius:4},
+    {label:'Total Liabilities',data:BS.liabilities,borderColor:red,backgroundColor:red+'22',fill:true,tension:0.4,borderWidth:2,pointRadius:4}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:'#7b82a0',font:{size:11}}}},scales:{x:{ticks:{color:'#7b82a0',font:{size:10}},grid:{color:borderC}},y:{ticks:{color:'#7b82a0',font:{size:10},callback:v=>'$'+(v/1000).toFixed(0)+'K'},grid:{color:borderC}}}}});
+
+  // Cash vs AR
+  mkChart('cashARChart',{type:'line',data:{labels:months,datasets:[
+    {label:'Cash on Hand',data:BS.cash,borderColor:acc,backgroundColor:acc+'22',fill:true,tension:0.4,borderWidth:2,pointRadius:4},
+    {label:'Accounts Receivable',data:BS.ar,borderColor:acc2,backgroundColor:acc2+'22',fill:true,tension:0.4,borderWidth:2,pointRadius:4}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{color:'#7b82a0',font:{size:11}}}},scales:{x:{ticks:{color:'#7b82a0',font:{size:10}},grid:{color:borderC}},y:{ticks:{color:'#7b82a0',font:{size:10},callback:v=>'$'+(v/1000).toFixed(0)+'K'},grid:{color:borderC}}}}});
+}
+
+// ── KPI CARDS ────────────────────────────────────────────────────
+const kpis = [
+  { l:'H1 Revenue',          v:fmt(T.revenue),      s:'Jun: '+fmt(D.revenue[5]),             tr:'↑ $4.07M total',       tc:'trend-up',      b:'Annualized ~$8.1M',    sc:'status-green' },
+  { l:'H1 Gross Profit',     v:fmt(T.grossProfit),  s:'36.5% blended GM',                    tr:'↓ Below 50% target',   tc:'trend-down',    b:'Target: 50–65%',       sc:'status-yellow' },
+  { l:'H1 Net Income',       v:fmt(T.netIncome),    s:'8.8% net margin',                     tr:'↑ Profitable H1',      tc:'trend-up',      b:'Positive vs prior est.',sc:'status-green' },
+  { l:'Jun Gross Margin',    v:'46.9%',             s:'May: 53.2%',                           tr:'↓ Slight dip',         tc:'trend-neutral', b:'Target: 50%+',         sc:'status-yellow' },
+  { l:'Subcontractors H1',   v:fmt(T.subcontractors),s:'37.1% of revenue',                   tr:'↓ Above target',       tc:'trend-down',    b:'Target: 20–30%',       sc:'status-red' },
+  { l:'Internal Payroll H1', v:fmt(T.payroll),      s:'12.8% of revenue',                    tr:'↓ -74% Jan→Jun',       tc:'trend-neutral', b:'Watch delivery risk',  sc:'status-yellow' },
+  { l:'Deferred Revenue',    v:'$771,031',          s:'Contracted, not yet billed',           tr:'↑ Strong pipeline',    tc:'trend-up',      b:'H2 visibility',        sc:'status-green' },
+  { l:'Total Equity (Jun)',  v:'$799,854',          s:'Was -$354K in Jan',                    tr:'↑ +$1.15M swing',      tc:'trend-up',      b:'Recovering balance sheet',sc:'status-green'},
+];
+
+function buildKPIs() {
+  const g = document.getElementById('kpiGrid');
+  g.innerHTML = kpis.map(k=>`
+    <div class="kpi-card">
+      <div class="kpi-label"><span class="kpi-status ${k.sc}"></span>${k.l}</div>
+      <div class="kpi-value">${k.v}</div>
+      <div class="kpi-sub">${k.s}</div>
+      <span class="kpi-trend ${k.tc}">${k.tr}</span>
+      <div class="kpi-benchmark">Benchmark: ${k.b}</div>
+    </div>`).join('');
+}
+
+// ── REVENUE TABLE ────────────────────────────────────────────────
+function buildRevTable() {
+  const tb = document.getElementById('revTable');
+  if (!tb) return;
+  tb.innerHTML = months.map((m,i)=>{
+    const gp = D.grossProfit[i]; const ni = D.netIncome[i];
+    const gmPct = (gm(i)).toFixed(1); const nmPct = (nm(i)).toFixed(1);
+    const gpC = gp<0?'negative':'positive'; const niC = ni<0?'negative':'positive';
+    const gmC = +gmPct<20?'negative':+gmPct<40?'warning':'positive';
+    const nmC = +nmPct<0?'negative':+nmPct<10?'warning':'positive';
+    return `<tr>
+      <td><strong>${m} 2026</strong></td>
+      <td>${fmt(D.revenue[i])}</td>
+      <td>${fmt(D.cogs[i])}</td>
+      <td class="${gpC}">${fmt(gp)}</td>
+      <td class="${gmC}">${gmPct}%</td>
+      <td>${fmt(D.expenses[i])}</td>
+      <td class="${niC}">${fmt(ni)}</td>
+      <td class="${nmC}">${nmPct}%</td>
+      <td><span class="badge ${ni>0?'badge-green':ni>-100000?'badge-yellow':'badge-red'}">${ni>0?'Profit':'Loss'}</span></td>
+    </tr>`;
+  }).join('') + `<tr style="font-weight:700;border-top:2px solid var(--border)">
+    <td>H1 Total</td>
+    <td>${fmt(T.revenue)}</td>
+    <td>${fmt(T.cogs)}</td>
+    <td class="positive">${fmt(T.grossProfit)}</td>
+    <td class="warning">36.5%</td>
+    <td>${fmt(T.expenses)}</td>
+    <td class="positive">${fmt(T.netIncome)}</td>
+    <td class="positive">8.8%</td>
+    <td><span class="badge badge-green">Profit</span></td>
+  </tr>`;
+}
+
+// ── INIT ─────────────────────────────────────────────────────────
+buildKPIs();
+buildRevTable();
+buildAllCharts();
 </script>
 </body>
 </html>
