@@ -116,7 +116,7 @@
   <button class="tab-btn" onclick="showTab('detail',this)">Monthly Detail</button>
   <button class="tab-btn" onclick="showTab('balance',this)">Balance Sheet</button>
   <button class="tab-btn" onclick="showTab('insights',this)">Insights</button>
-  <button class="tab-btn" onclick="showTab('nextsteps',this)">Next Steps</button>
+  <button class="tab-btn" onclick="showTab('nextsteps',this)">Recommendations</button>
 </div>
 
 <main>
@@ -447,11 +447,7 @@
       <div class="insight-title">Implement Project Cost Pre-Approval</div>
       <div class="insight-body"><strong>Problem:</strong> January's $647K subcontractor spend on $268K revenue caused a -$797K loss — a single project nearly destroyed the year.<br><br><strong>Action:</strong> Institute a hard rule: no project COGS can exceed 60% of signed contract value without CFO sign-off. Create a simple pre-project P&L template that every PM must complete before any vendor is booked.<br><br><strong>Impact:</strong> Preventing one January-level event saves $500K–$800K per occurrence.</div>
     </div>
-    <div class="insight-card danger">
-      <div class="insight-icon">📬</div>
-      <div class="insight-title">Fix AR Collections Process</div>
-      <div class="insight-body"><strong>Problem:</strong> AR spiked to $780K in May — cash was nearly depleted to $30K that same month. Collections are reactive, not systematic.<br><br><strong>Action:</strong> Set up a weekly AR aging report. Flag invoices at 30, 45, and 60 days with automated follow-up sequences. Require 50% deposits on all new projects over $50K.<br><br><strong>Impact:</strong> Tightening DSO from 27 to 20 days would free up ~$150K in working capital permanently.</div>
-    </div>
+
     <div class="insight-card warning">
       <div class="insight-icon">📋</div>
       <div class="insight-title">Audit Payroll vs. Subcontractor Classification</div>
@@ -461,16 +457,8 @@
 
   <div class="section-title">Priority 2 — Short-Term (Aug–Oct 2026)</div>
   <div class="insights-grid">
-    <div class="insight-card warning">
-      <div class="insight-icon">📄</div>
-      <div class="insight-title">Build a Retainer Revenue Base</div>
-      <div class="insight-body"><strong>Problem:</strong> Revenue swings 6.6x month-to-month ($223K–$1.49M). Zero visible retainer base means every month is a new revenue gamble.<br><br><strong>Action:</strong> Identify your top 5 current clients and pitch ongoing retainer packages (strategy, content, design maintenance). Target $200–$300K/month in contracted MRR by Q4 2026. Even one anchor retainer at $50K/month changes the risk profile dramatically.<br><br><strong>Impact:</strong> $250K/month retainer base = ~$3M in predictable annual revenue with near-zero CAC.</div>
-    </div>
-    <div class="insight-card warning">
-      <div class="insight-icon">🏗️</div>
-      <div class="insight-title">Apply Outlier's Operating Model to Grizzly Core</div>
-      <div class="insight-body"><strong>Problem:</strong> Outlier runs at 19.9% net margin. Grizzly Core runs at 2.0% on 63% more revenue. The gap is entirely in cost structure — subcontractors and overhead.<br><br><strong>Action:</strong> Map Outlier's project workflow, vendor rates, and scoping process. Identify the 3–5 specific practices that drive its efficiency and implement them as standard process in Grizzly Core projects starting Q3.<br><br><strong>Impact:</strong> Closing half the margin gap on Grizzly Core would add ~$200K in annual net income with no new revenue.</div>
-    </div>
+
+
     <div class="insight-card warning">
       <div class="insight-icon">✂️</div>
       <div class="insight-title">Reduce Subcontractor Spend to Under 30%</div>
@@ -480,11 +468,7 @@
 
   <div class="section-title">Priority 3 — Strategic (Q4 2026 & Beyond)</div>
   <div class="insights-grid">
-    <div class="insight-card success">
-      <div class="insight-icon">💰</div>
-      <div class="insight-title">Build a 3-Month Cash Reserve</div>
-      <div class="insight-body"><strong>Problem:</strong> Cash on hand dropped to $30K in May — dangerously close to zero. Monthly operating expenses average ~$325K, meaning 3-month reserves should be ~$975K.<br><br><strong>Action:</strong> Set a board-level policy: maintain a minimum $500K operating cash floor (separate from Schwab reserves). Auto-transfer 10% of every client payment into a dedicated reserve account until the target is reached.<br><br><strong>Impact:</strong> Eliminates risk of payroll failure or LOC dependency during slow months.</div>
-    </div>
+
     <div class="insight-card success">
       <div class="insight-icon">📊</div>
       <div class="insight-title">Launch Monthly KPI Review Cadence</div>
@@ -511,12 +495,8 @@
       <thead><tr><th>#</th><th>Action</th><th>Owner</th><th>Deadline</th><th>Est. Annual Impact</th><th>Priority</th></tr></thead>
       <tbody>
         <tr><td>1</td><td>Implement project cost pre-approval rule</td><td>CFO / Ops</td><td>Aug 1, 2026</td><td class="positive">$500K–$800K risk avoided</td><td><span class="badge badge-red">Critical</span></td></tr>
-        <tr><td>2</td><td>Weekly AR aging report + 50% deposit policy</td><td>Finance</td><td>Aug 1, 2026</td><td class="positive">+$150K working capital</td><td><span class="badge badge-red">Critical</span></td></tr>
         <tr><td>3</td><td>Worker classification audit (W2 vs 1099)</td><td>HR / Legal</td><td>Aug 15, 2026</td><td class="warning">Risk mitigation</td><td><span class="badge badge-red">Critical</span></td></tr>
-        <tr><td>4</td><td>Pitch retainer packages to top 5 clients</td><td>Sales / AM</td><td>Sep 30, 2026</td><td class="positive">+$2.4M ARR potential</td><td><span class="badge badge-yellow">High</span></td></tr>
-        <tr><td>5</td><td>Map Outlier workflow → apply to Core projects</td><td>Ops / PMs</td><td>Sep 30, 2026</td><td class="positive">+$200K net income</td><td><span class="badge badge-yellow">High</span></td></tr>
         <tr><td>6</td><td>Model in-house hire vs. 1099 for Design/Production</td><td>CFO / HR</td><td>Oct 15, 2026</td><td class="positive">+$285K gross profit</td><td><span class="badge badge-yellow">High</span></td></tr>
-        <tr><td>7</td><td>Set $500K operating cash reserve floor</td><td>CFO</td><td>Dec 31, 2026</td><td class="positive">Eliminates LOC dependency</td><td><span class="badge badge-green">Strategic</span></td></tr>
         <tr><td>8</td><td>Launch weekly project P&L flash report</td><td>Finance / PMs</td><td>Aug 15, 2026</td><td class="warning">Early warning system</td><td><span class="badge badge-yellow">High</span></td></tr>
         <tr><td>9</td><td>Set H2 2026 financial targets with leadership</td><td>CEO / CFO</td><td>Aug 1, 2026</td><td class="positive">Alignment + accountability</td><td><span class="badge badge-green">Strategic</span></td></tr>
       </tbody>
